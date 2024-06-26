@@ -10,13 +10,13 @@ export const UserSchema = new EntitySchema({
             generated: true
         },
         email: {
-            type: String,
+            type: 'varchar',
             length: 150,
             nullable: false,
             unique: true
         },
         phone: {
-            type: String,
+            type: 'varchar',
             length: 20,
             nullable: false,
             unique: true
@@ -26,29 +26,36 @@ export const UserSchema = new EntitySchema({
             nullable: false
         },
         password: {
-            type: String,
+            type: 'varchar',
             length: 255,
             nullable: false,
         },
         fullName: {
-            type: String,
+            type: 'varchar',
             length: 255,
             nullable: false,
         },
         adress: {
-            type: String,
+            type: 'varchar',
             length: 255,
             nullable: false
         },
         createdAt: {
             type: 'timestamp',
-            createDate: true,
-            default: () => "CURRENT_TIMESTAMP"
+            default: () => 'CURRENT_TIMESTAMP',
+            onUpdate: 'CURRENT_TIMESTAMP'  // Define também o valor padrão para atualização
         },
         active: {
             type: 'int',
             nullable: false,
             default: 1
         }
+    },
+    relations: {
+        tickets: {
+            type: 'one-to-many',
+            target: 'Tickets',
+            inverseSide: 'users'
+        },
     }
 })
