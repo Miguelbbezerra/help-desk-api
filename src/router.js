@@ -1,3 +1,5 @@
+import { ListCategoryController } from "./controllers/categories/ListCategoryController.js"
+import { ListChatController } from "./controllers/chats/ListChatController.js"
 import { ListTicketController } from "./controllers/tickets/ListTicketController.js"
 import { ListUserController } from "./controllers/users/ListUserController.js"
 
@@ -35,6 +37,40 @@ export const router = (express) => {
     //DELETE
 
     // ROUTES OF TICKTES
+
+    // ----------------------------
+
+    // ROUTES OF CHATS
+    //LIST
+    router.get('/chat', (req, res) => {
+        const listChatController = new ListChatController()
+        return listChatController.list(req, res)
+    })
+
+    //STORE
+
+    //UPDATE
+
+    //DELETE
+
+    // ROUTES OF CHATS
+
+    // ----------------------------
+    
+    // ROUTES OF CATEGORY
+    //LIST
+    router.get('/category', (req, res) => {
+        const listCategoryController = new ListCategoryController()
+        return listCategoryController.list(req, res)
+    })
+
+    //STORE
+
+    //UPDATE
+
+    //DELETE
+
+    // ROUTES OF CATEGORY
 
     // ----------------------------
 
