@@ -74,5 +74,22 @@ export const router = (express) => {
 
     // ----------------------------
 
+        // ----------------------------
+    
+    // ROUTES OF ANEXOS TICKETS
+    //LIST
+    router.get('/anexosticket', (req, res) => {
+        const listAnexosTicketsController = new ListAnexosTicketsController()
+        return listAnexosTicketsController.list(req, res)
+    })
+
+    //STORE
+
+    //DELETE
+
+    // ROUTES OF ANEXOS TICKETS
+
+    // ----------------------------
+
     return router
 }
