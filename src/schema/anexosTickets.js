@@ -2,7 +2,7 @@ import { EntitySchema } from "typeorm";
 
 export const AnexosTicketSchema = new EntitySchema({
     name: "AnexosTickets",
-    tableName: "anexosTickets",
+    tableName: "anexos_tickets",
     columns: {
         id: {
             type: 'int',

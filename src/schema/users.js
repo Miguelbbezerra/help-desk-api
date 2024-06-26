@@ -40,6 +40,11 @@ export const UserSchema = new EntitySchema({
             length: 255,
             nullable: false
         },
+        level: {
+            type: 'varchar',
+            length: 20,
+            nullable: false
+        },
         createdAt: {
             type: 'timestamp',
             default: () => 'CURRENT_TIMESTAMP',
