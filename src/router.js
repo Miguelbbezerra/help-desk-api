@@ -10,6 +10,10 @@ import { StoreUserController } from "./controllers/users/StoreUserController.js"
 import { StoreCategoryController } from "./controllers/categories/StoreCategoryController.js"
 import { StoreChatController } from "./controllers/chats/StoreChatController.js"
 import { StoreAnexosTicketsController, uploadMiddleware } from "./controllers/anexosTickets/StoreAnexosTicketsController.js"
+import { UpdateUserController } from "./controllers/users/UpdateUserController.js"
+import { UpdateTicketController } from "./controllers/tickets/UpdateTicketController.js"
+import { UpdateChatController } from "./controllers/chats/UpdateChatController.js"
+import { UpdateCategoryController } from "./controllers/categories/UpdateCategoryController.js"
 
 export const router = (express) => {
     const router = express.Router()
@@ -28,6 +32,10 @@ export const router = (express) => {
     })
 
     //UPDATE
+    router.put('/user/:id', (req, res) => {
+        const updateUserController = new UpdateUserController()
+        return updateUserController.update(req, res)
+    })
 
     //DELETE
 
@@ -49,6 +57,10 @@ export const router = (express) => {
     })
 
     //UPDATE
+    router.put('/ticket/:id', (req, res) => {
+        const updateTicketController = new UpdateTicketController()
+        return updateTicketController.update(req, res)
+    })
 
     //DELETE
 
@@ -70,13 +82,17 @@ export const router = (express) => {
     })
 
     //UPDATE
+    router.put('/chat/:id', (req, res) => {
+        const updateChatController = new UpdateChatController()
+        return updateChatController.update(req, res)
+    })
 
     //DELETE
 
     // ROUTES OF CHATS
 
     // ----------------------------
-    
+
     // ROUTES OF CATEGORY
     //LIST
     router.get('/category', (req, res) => {
@@ -91,6 +107,10 @@ export const router = (express) => {
     })
 
     //UPDATE
+    router.put('/category/:id', (req, res) => {
+        const updateCategoryController = new UpdateCategoryController()
+        return updateCategoryController.update(req, res)
+    })
 
     //DELETE
 
