@@ -14,6 +14,7 @@ import { UpdateUserController } from "./controllers/users/UpdateUserController.j
 import { UpdateTicketController } from "./controllers/tickets/UpdateTicketController.js"
 import { UpdateChatController } from "./controllers/chats/UpdateChatController.js"
 import { UpdateCategoryController } from "./controllers/categories/UpdateCategoryController.js"
+import { DeleteAnexosTicketsController } from "./controllers/anexosTickets/DeleteAnexosTicketsController.js"
 
 export const router = (express) => {
     const router = express.Router()
@@ -36,8 +37,6 @@ export const router = (express) => {
         const updateUserController = new UpdateUserController()
         return updateUserController.update(req, res)
     })
-
-    //DELETE
 
     // ROUTES OF USERS
 
@@ -62,8 +61,6 @@ export const router = (express) => {
         return updateTicketController.update(req, res)
     })
 
-    //DELETE
-
     // ROUTES OF TICKTES
 
     // ----------------------------
@@ -86,8 +83,6 @@ export const router = (express) => {
         const updateChatController = new UpdateChatController()
         return updateChatController.update(req, res)
     })
-
-    //DELETE
 
     // ROUTES OF CHATS
 
@@ -112,8 +107,6 @@ export const router = (express) => {
         return updateCategoryController.update(req, res)
     })
 
-    //DELETE
-
     // ROUTES OF CATEGORY
 
     // ----------------------------
@@ -132,7 +125,10 @@ export const router = (express) => {
     })
 
     //DELETE
-
+    router.put('/anexosticket/:id', (req, res) => {
+        const deleteAnexosTicketsController = new DeleteAnexosTicketsController()
+        return deleteAnexosTicketsController.delete(req, res)
+    })
     // ROUTES OF ANEXOS TICKETS
 
     // ----------------------------

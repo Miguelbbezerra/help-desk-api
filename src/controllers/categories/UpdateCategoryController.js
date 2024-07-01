@@ -9,7 +9,7 @@ export class UpdateCategoryController {
             const categoryRepository = AppDataSource.getRepository(CategorySchema)
             const result = await categoryRepository.update(id, { ...body })
             if (result.affected === 1) {
-                const category = categoryRepository.find({
+                const category = await categoryRepository.find({
                     where: {
                         id: id
                     }
