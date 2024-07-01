@@ -1,5 +1,4 @@
-unique: true
-import { EntitySchema, JoinColumn } from "typeorm";
+import { EntitySchema } from "typeorm";
 
 export const TicketSchema = new EntitySchema({
     name: "Tickets",

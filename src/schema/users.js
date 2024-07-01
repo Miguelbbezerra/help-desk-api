@@ -48,7 +48,7 @@ export const UserSchema = new EntitySchema({
         createdAt: {
             type: 'timestamp',
             default: () => 'CURRENT_TIMESTAMP',
-            onUpdate: 'CURRENT_TIMESTAMP'  // Define também o valor padrão para atualização
+            onUpdate: 'CURRENT_TIMESTAMP'
         },
         active: {
             type: 'int',
