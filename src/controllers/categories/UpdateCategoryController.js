@@ -1,11 +1,18 @@
 import { AppDataSource } from "../../app-data-source.js"
 import { CategorySchema } from "../../schema/categories.js"
+import { Validator } from "../../validator/validator.js"
 
 export class UpdateCategoryController {
     async update(req, res) {
         try {
             const body = req.body
             const id = req.params.id
+
+            if (Validator.validateVazio(body.category)
+            ) {
+                return res.status(400).json({ message: "Algum campo está vazio!" })
+            }
+            
             const categoryRepository = AppDataSource.getRepository(CategorySchema)
             const result = await categoryRepository.update(id, { ...body })
             if (result.affected === 1) {

@@ -1,11 +1,22 @@
 import { AppDataSource } from "../../app-data-source.js"
 import { TicketSchema } from "../../schema/ticktets.js"
+import { Validator } from "../../validator/validator.js"
 
 export class UpdateTicketController {
     async update(req, res) {
         try {
             const body = req.body
             const id = req.params.id
+
+            if (Validator.validateVazio(body.title)
+                || Validator.validateVazio(body.body)
+                || Validator.validateVazio(body.status)
+                || Validator.validateVazio(body.userId)
+                || Validator.validateVazio(body.categoryId)
+            ) {
+                return res.status(400).json({ message: "Algum campo está vazio!" })
+            }
+
             const ticketRepository = AppDataSource.getRepository(TicketSchema)
             const result = await ticketRepository.update(id, { ...body })
             if (result.affected === 1) {
