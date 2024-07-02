@@ -9,7 +9,7 @@ export const ChatSchema = new EntitySchema({
             primary: true,
             generated: true
         },
-        mesage: {
+        message: {
             type: 'varchar',
             length: 255,
             nullable: false,

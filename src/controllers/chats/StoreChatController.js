@@ -1,12 +1,20 @@
 import { AppDataSource } from "../../app-data-source.js"
 import { ChatSchema } from "../../schema/chats.js"
+import { Validator } from "../../validator/validator.js"
 
 export class StoreChatController {
     async store(req, res) {
         try {
             const body = req.body
+
+            if (Validator.validateVazio(body.message)
+                || Validator.validateVazio(body.ticketId)
+            ) {
+                return res.status(400).json({ message: "Algum campo está vazio!" })
+            }
+            
             const chatDto = {
-                mesage: body.mesage,
+                mesage: body.message,
                 ticketId: body.ticketId
             }
             const chatRepository = AppDataSource.getRepository(ChatSchema)

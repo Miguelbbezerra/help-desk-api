@@ -2,6 +2,7 @@ import { AppDataSource } from "../../app-data-source.js";
 import { AnexosTicketSchema } from "../../schema/anexosTickets.js";
 import multer from "multer";
 import path from "path";
+import { Validator } from "../../validator/validator.js";
 
 // Configuração do multer para upload de arquivos
 const storage = multer.diskStorage({
@@ -25,7 +26,11 @@ export class StoreAnexosTicketsController {
             const body = req.body;
 
             if (!file) {
-                return res.status(400).json({ message: "File not provided" });
+                return res.status(400).json({ message: "Arquivo não fornecido!" });
+            }
+            if (Validator.validateVazio(body.ticketId)
+            ) {
+                return res.status(400).json({ message: "Algum campo está vazio!" })
             }
 
             // Criação da URL completa para acessar a imagem
