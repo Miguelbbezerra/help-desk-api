@@ -4,6 +4,7 @@ import { router } from './router.js'
 import bodyParser from 'body-parser'
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 
 const app = express()
 const port = 5000
@@ -13,6 +14,9 @@ const __dirname = path.dirname(__filename);
 
 // Configuração da pasta de uploads como estática
 app.use('/uploads', express.static(path.resolve('src/uploads')));
+
+// Middleware para liberar CORS
+app.use(cors());
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
