@@ -1,20 +1,27 @@
 ///////////////////////////////////// LIST
 import { ListAnexosTicketsController } from "./controllers/anexosTickets/ListAnexosTicketsController.js"
 import { ListCategoryController } from "./controllers/categories/ListCategoryController.js"
+import { ListStatusController } from "./controllers/status/ListStatusController.js"
 import { ListChatController } from "./controllers/chats/ListChatController.js"
 import { ListTicketController } from "./controllers/tickets/ListTicketController.js"
 import { ListUserController } from "./controllers/users/ListUserController.js"
 ///////////////////////////////////// LIST
+///////////////////////////////////// STORE
 import { StoreTicketController } from "./controllers/tickets/StoreTicketController.js"
 import { StoreUserController } from "./controllers/users/StoreUserController.js"
 import { StoreCategoryController } from "./controllers/categories/StoreCategoryController.js"
+import { StoreStatusController } from "./controllers/status/StoreStatusController.js"
 import { StoreChatController } from "./controllers/chats/StoreChatController.js"
 import { StoreAnexosTicketsController, uploadMiddleware } from "./controllers/anexosTickets/StoreAnexosTicketsController.js"
+///////////////////////////////////// STORE
+///////////////////////////////////// UPDATE AND DELETE
 import { UpdateUserController } from "./controllers/users/UpdateUserController.js"
 import { UpdateTicketController } from "./controllers/tickets/UpdateTicketController.js"
 import { UpdateChatController } from "./controllers/chats/UpdateChatController.js"
 import { UpdateCategoryController } from "./controllers/categories/UpdateCategoryController.js"
+import { UpdateStatusController } from "./controllers/status/UpdateStatusController.js"
 import { DeleteAnexosTicketsController } from "./controllers/anexosTickets/DeleteAnexosTicketsController.js"
+///////////////////////////////////// UPDATE AND DELETE
 
 export const router = (express) => {
     const router = express.Router()
@@ -108,6 +115,29 @@ export const router = (express) => {
     })
 
     // ROUTES OF CATEGORY
+
+    // ----------------------------
+
+    // ROUTES OF STATUS
+    //LIST
+    router.get('/status', (req, res) => {
+        const listStatusController = new ListStatusController()
+        return listStatusController.list(req, res)
+    })
+
+    //STORE
+    router.post('/status', (req, res) => {
+        const storeStatusController = new StoreStatusController()
+        return storeStatusController.store(req, res)
+    })
+
+    //UPDATE
+    router.put('/status/:id', (req, res) => {
+        const updateStatusController = new UpdateStatusController()
+        return updateStatusController.update(req, res)
+    })
+
+    // ROUTES OF Status
 
     // ----------------------------
 

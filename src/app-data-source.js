@@ -4,6 +4,7 @@ import { TicketSchema } from "./schema/ticktets.js";
 import { ChatSchema } from "./schema/chats.js"
 import { CategorySchema } from "./schema/categories.js"
 import { AnexosTicketSchema } from "./schema/anexosTickets.js"
+import { StatusSchema } from "./schema/status.js";
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -16,7 +17,9 @@ export const AppDataSource = new DataSource({
     metadataTableName: 'meta_data_custom',
     relationLoadStrategy: 'join',
     logging: true,
-    entities: [ UserSchema, TicketSchema, ChatSchema, CategorySchema, AnexosTicketSchema],
+    entities: [ UserSchema, TicketSchema, ChatSchema, CategorySchema, StatusSchema, AnexosTicketSchema],
     migrations: [],
     subscribers: [],
 })
+
+

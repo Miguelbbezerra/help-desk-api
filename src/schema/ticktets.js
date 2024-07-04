@@ -19,8 +19,7 @@ export const TicketSchema = new EntitySchema({
             nullable: false,
         },
         status: {
-            type: 'varchar',
-            length: 15,
+            type: 'int',
             nullable: false
         },
         createdAt: {
@@ -49,6 +48,12 @@ export const TicketSchema = new EntitySchema({
             type: 'many-to-one',
             target: 'Users',
             JoinColumn: {name:'userId'},
+            nullable: false
+        },
+        status: {
+            type: 'many-to-one',
+            target: 'Status',
+            joinColumn: {name:'status'},
             nullable: false
         },
         category: {
