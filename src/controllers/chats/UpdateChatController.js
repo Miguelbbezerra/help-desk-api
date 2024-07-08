@@ -10,6 +10,7 @@ export class UpdateChatController {
 
             if (Validator.validateVazio(body.message)
                 || Validator.validateVazio(body.ticketId)
+                || Validator.validateVazio(body.userId)
             ) {
                 return res.status(400).json({ message: "Algum campo está vazio!" })
             }

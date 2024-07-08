@@ -28,14 +28,26 @@ export const ChatSchema = new EntitySchema({
             name: 'ticketId',
             type: 'int',
             nullable: false
+        },
+        userId: {
+            name: 'userId',
+            type: 'int',
+            nullable: false
         }
     },
     relations: {
         ticket: {
             type: 'many-to-one',
             target: 'Tickets',
-            JoinColumn: {name:'ticketId'},
+            JoinColumn: { name: 'ticketId' },
             nullable: false
         },
-    }
+        user: {
+            type: 'many-to-one',
+            target: 'Users',
+            JoinColumn: { name: 'userId' },
+            nullable: false
+        },
+    },
+
 })

@@ -9,13 +9,15 @@ export class StoreChatController {
 
             if (Validator.validateVazio(body.message)
                 || Validator.validateVazio(body.ticketId)
+                || Validator.validateVazio(body.userId)
             ) {
                 return res.status(400).json({ message: "Algum campo está vazio!" })
             }
             
             const chatDto = {
-                mesage: body.message,
-                ticketId: body.ticketId
+                message: body.message,
+                ticketId: body.ticketId,
+                userId: body.userId
             }
             const chatRepository = AppDataSource.getRepository(ChatSchema)
             const result = await chatRepository.save(chatDto)
