@@ -1,16 +1,14 @@
-import express from 'express'
-import { AppDataSource } from './app-data-source.js'
-import { router } from './router.js'
-import bodyParser from 'body-parser'
+import express from 'express';
+import { AppDataSource } from './app-data-source.js';
+import { router } from './router.js';
+import bodyParser from 'body-parser';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import cors from 'cors';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 
-const app = express()
-const port = 5000
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const app = express();
+const port = 5000;
 
 // Configuração da pasta de uploads como estática
 app.use('/uploads', express.static(path.resolve('src/uploads')));
@@ -18,14 +16,53 @@ app.use('/uploads', express.static(path.resolve('src/uploads')));
 // Middleware para liberar CORS
 app.use(cors());
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(router(express))
+app.use(router(express));
+
+// Criação do servidor HTTP
+const server = createServer(app);
+
+// Inicialização do Socket.io
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+    }
+});
+
+// Configuração dos eventos do Socket.io
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+
+    // Evento de mensagem de chat
+    socket.on('chat message', async (msg) => {
+        try {
+            const response = await fetch('http://localhost:5000/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(msg),
+            });
+
+            const savedMessage = await response.json();
+            console.log('message saved: ', savedMessage);
+
+            // Emite a mensagem salva para todos os clientes conectados
+            io.emit('chat message', savedMessage);
+        } catch (error) {
+            console.error('Error saving message: ', error);
+        }
+    });
+});
 
 AppDataSource.initialize().then(async () => {
-    app.listen(port, () => {
-        console.log(`Example app listening on port ${port}`)
-    })
-})
-
+    server.listen(port, () => {
+        console.log(`Example app listening on port ${port}`);
+    });
+});
