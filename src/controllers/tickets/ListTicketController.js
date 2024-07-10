@@ -10,6 +10,7 @@ export class ListTicketController {
             .leftJoinAndSelect("ticket.status", "status")
             .leftJoinAndSelect("ticket.category", "categories")
             .leftJoinAndSelect("ticket.user", "users")
+            .orderBy('ticket.id', 'DESC') 
             .where(queryParams)
             .getMany()
             return res.json(ticket)
