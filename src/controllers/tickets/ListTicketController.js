@@ -13,7 +13,7 @@ export class ListTicketController {
                 .orderBy('ticket.id', 'DESC')
             if (search && search !== "" && search !== null) {
                 queryBuilder = queryBuilder.where(
-                    `ticket.title LIKE :search OR ticket.body LIKE :search OR status.status LIKE :search OR categories.category LIKE :search`,
+                    `(ticket.title LIKE :search OR ticket.body LIKE :search OR status.status LIKE :search OR categories.category LIKE :search)`,
                     { search: `%${search}%` }
                 );
             }
