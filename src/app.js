@@ -1,4 +1,3 @@
-
 import express from 'express';
 import { AppDataSource } from './app-data-source.js';
 import { router } from './router.js';
@@ -20,6 +19,24 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Middleware para emitir notificações de tickets
+app.use((req, res, next) => {
+    const oldSend = res.send;
+    res.send = function (data) {
+        data = JSON.parse(data);
+        if (req.method === 'POST' && req.path === '/ticket') {
+            io.emit('notification', { type: 'new_ticket', data });
+            console.log('New ticket notification emitted:', data);
+        } else if (req.method === 'PUT' && req.path.startsWith('/ticket/')) {
+            io.emit('notification', { type: 'update_ticket', data });
+            console.log('Update ticket notification emitted:', data);
+        }
+        oldSend.apply(res, arguments);
+    }
+    next();
+});
+
+// Adicionar as rotas do router
 app.use(router(express));
 
 // Criação do servidor HTTP
@@ -56,6 +73,9 @@ io.on('connection', (socket) => {
 
             // Emite a mensagem salva para todos os clientes conectados
             io.emit('chat message', savedMessage);
+
+            // Envia uma notificação de chat
+            io.emit('notification', { type: 'new_chat_message', data: savedMessage });
         } catch (error) {
             console.error('Error saving message: ', error);
         }
