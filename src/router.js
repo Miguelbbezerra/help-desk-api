@@ -5,6 +5,7 @@ import { ListStatusController } from "./controllers/status/ListStatusController.
 import { ListChatController } from "./controllers/chats/ListChatController.js"
 import { ListTicketController } from "./controllers/tickets/ListTicketController.js"
 import { ListUserController } from "./controllers/users/ListUserController.js"
+import { ListNotificationController } from "./controllers/notifications/ListNotificationController.js"
 ///////////////////////////////////// LIST
 ///////////////////////////////////// STORE
 import { StoreTicketController } from "./controllers/tickets/StoreTicketController.js"
@@ -13,6 +14,7 @@ import { StoreCategoryController } from "./controllers/categories/StoreCategoryC
 import { StoreStatusController } from "./controllers/status/StoreStatusController.js"
 import { StoreChatController } from "./controllers/chats/StoreChatController.js"
 import { StoreAnexosTicketsController, uploadMiddleware } from "./controllers/anexosTickets/StoreAnexosTicketsController.js"
+import { StoreNotificationController } from "./controllers/notifications/StoreNotificationController.js"
 ///////////////////////////////////// STORE
 ///////////////////////////////////// UPDATE AND DELETE
 import { UpdateUserController } from "./controllers/users/UpdateUserController.js"
@@ -20,6 +22,7 @@ import { UpdateTicketController } from "./controllers/tickets/UpdateTicketContro
 import { UpdateChatController } from "./controllers/chats/UpdateChatController.js"
 import { UpdateCategoryController } from "./controllers/categories/UpdateCategoryController.js"
 import { UpdateStatusController } from "./controllers/status/UpdateStatusController.js"
+import { UpdateNotificationController } from "./controllers/notifications/UpdateNotificationController.js"
 import { DeleteAnexosTicketsController } from "./controllers/anexosTickets/DeleteAnexosTicketsController.js"
 ///////////////////////////////////// UPDATE AND DELETE
 
@@ -163,5 +166,19 @@ export const router = (express) => {
 
     // ----------------------------
 
+    // ROUTES OF NOTIFICATION
+    router.get('/notification', (req, res) => {
+        const listNoticationController = new ListNotificationController()
+        return listNoticationController.list(req, res)
+    })
+    router.post('/notification', (req, res) => {
+        const storeNoticationController = new StoreNotificationController()
+        return storeNoticationController.list(req, res)
+    })
+    router.put('/notification/:id', (req, res) => {
+        const updateNoticationController = new UpdateNotificationController()
+        return updateNoticationController.list(req, res)
+    })
+    // ROUTES OF NOTIFICATION
     return router
 }
