@@ -6,6 +6,7 @@ import path from 'path';
 import cors from 'cors';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import fetch from 'node-fetch';
 
 const app = express();
 const port = 5000;
@@ -19,17 +20,47 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Middleware para emitir notificações de tickets
-app.use((req, res, next) => {
+// Middleware para emitir notificações de tickets e salvar no banco
+app.use(async (req, res, next) => {
     const oldSend = res.send;
-    res.send = function (data) {
+    res.send = async function (data) {
         data = JSON.parse(data);
         if (req.method === 'POST' && req.path === '/ticket') {
             io.emit('notification', { type: 'new_ticket', data });
             console.log('New ticket notification emitted:', data);
+
+            // Save notification using fetch
+            try {
+                const response = await fetch('http://localhost:5000/notifications', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ type: 'new_ticket', data }),
+                });
+                const savedNotification = await response.json();
+                console.log('New ticket notification saved to database:', savedNotification);
+            } catch (error) {
+                console.error('Error saving notification:', error);
+            }
         } else if (req.method === 'PUT' && req.path.startsWith('/ticket/')) {
             io.emit('notification', { type: 'update_ticket', data });
             console.log('Update ticket notification emitted:', data);
+
+            // Save notification using fetch
+            try {
+                const response = await fetch('http://localhost:5000/notifications', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ type: 'update_ticket', data }),
+                });
+                const savedNotification = await response.json();
+                console.log('Update ticket notification saved to database:', savedNotification);
+            } catch (error) {
+                console.error('Error saving notification:', error);
+            }
         }
         oldSend.apply(res, arguments);
     }
@@ -70,6 +101,21 @@ io.on('connection', (socket) => {
 
             const savedMessage = await response.json();
             console.log('message saved: ', savedMessage);
+
+            // Save notification using fetch
+            try {
+                const responseNotification = await fetch('http://localhost:5000/notification', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ type: 'new_chat_message', data: savedMessage }),
+                });
+                const savedNotification = await responseNotification.json();
+                console.log('New chat message notification saved to database:', savedNotification);
+            } catch (error) {
+                console.error('Error saving notification:', error);
+            }
 
             // Emite a mensagem salva para todos os clientes conectados
             io.emit('chat message', savedMessage);

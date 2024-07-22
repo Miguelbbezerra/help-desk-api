@@ -4,7 +4,7 @@ import { NotificationSchema } from "../../schema/notifications.js"
 export class UpdateNotificationController {
     async update(req, res) {
         try {
-            const id = req.body.params
+            const id = req.params.id
             const body = req.body
             const notificationRepository = AppDataSource.getRepository(NotificationSchema)
             const result = await notificationRepository.update(id, { ...body })

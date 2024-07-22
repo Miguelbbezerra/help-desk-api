@@ -173,11 +173,11 @@ export const router = (express) => {
     })
     router.post('/notification', (req, res) => {
         const storeNoticationController = new StoreNotificationController()
-        return storeNoticationController.list(req, res)
+        return storeNoticationController.store(req, res)
     })
     router.put('/notification/:id', (req, res) => {
         const updateNoticationController = new UpdateNotificationController()
-        return updateNoticationController.list(req, res)
+        return updateNoticationController.update(req, res)
     })
     // ROUTES OF NOTIFICATION
     return router
