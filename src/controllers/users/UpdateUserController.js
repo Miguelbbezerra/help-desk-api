@@ -9,35 +9,39 @@ export class UpdateUserController {
             const id = req.params.id
 
             //// VALIDATORS
-            if (Validator.validateVazio(body.password)) {
-                if (Validator.validateVazio(body.email)
-                    || Validator.validateVazio(body.phone)
-                    || Validator.validateVazio(body.dateBirth)
-                    || Validator.validateVazio(body.fullName)
-                    || Validator.validateVazio(body.adress)
-                    || Validator.validateVazio(body.level)) {
-                    return res.status(400).json({ message: "Algum campo está vazio!" })
-                }
+            const isActivePresent = body.hasOwnProperty('active')
 
-                if (!Validator.validateEmail(body.email)) {
-                    return res.status(400).json({ message: "EMAIL inválido!" })
-                }
+            if (!isActivePresent) {
+                if (Validator.validateVazio(body.password)) {
+                    if (Validator.validateVazio(body.email)
+                        || Validator.validateVazio(body.phone)
+                        || Validator.validateVazio(body.dateBirth)
+                        || Validator.validateVazio(body.fullName)
+                        || Validator.validateVazio(body.adress)
+                        || Validator.validateVazio(body.level)) {
+                        return res.status(400).json({ message: "Algum campo está vazio!" })
+                    }
 
-                if (!Validator.validatePhoneNumber(body.phone)) {
-                    return res.status(400).json({ message: "TELEFONE inválido!" })
-                }
+                    if (!Validator.validateEmail(body.email)) {
+                        return res.status(400).json({ message: "EMAIL inválido!" })
+                    }
 
-                if (!Validator.validateData(body.dateBirth)) {
-                    return res.status(400).json({ message: "DATA DE NASCIMENTO inválida!" })
-                }
-            } else {
-                if (!Validator.validatePassword(body.password)) {
-                    return res.status(400).json({ message: "SENHA inválida!" })
-                }
+                    if (!Validator.validatePhoneNumber(body.phone)) {
+                        return res.status(400).json({ message: "TELEFONE inválido!" })
+                    }
 
-                const salt = 12;
-                const hashPassword = await bcrypt.hash(body.senha, salt);
-                body.senha = hashPassword;  // Atualiza o campo senha com o hash
+                    if (!Validator.validateData(body.dateBirth)) {
+                        return res.status(400).json({ message: "DATA DE NASCIMENTO inválida!" })
+                    }
+                } else {
+                    if (!Validator.validatePassword(body.password)) {
+                        return res.status(400).json({ message: "SENHA inválida!" })
+                    }
+
+                    const salt = 12;
+                    const hashPassword = await bcrypt.hash(body.senha, salt);
+                    body.senha = hashPassword;  // Atualiza o campo senha com o hash
+                }
             }
             //// VALIDATORS
 

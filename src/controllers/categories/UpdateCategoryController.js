@@ -7,14 +7,17 @@ export class UpdateCategoryController {
         try {
             const body = req.body
             const id = req.params.id
+            const isActivePresent = body.hasOwnProperty('active')
 
-            if (Validator.validateVazio(body.category)
-            ) {
-                return res.status(400).json({ message: "Algum campo está vazio!" })
+            if (!isActivePresent) {
+                if (Validator.validateVazio(body.category)
+                ) {
+                    return res.status(400).json({ message: "Algum campo está vazio!" })
+                }
             }
-            
+
             const categoryRepository = AppDataSource.getRepository(CategorySchema)
-            const result = await categoryRepository.update(id, { ...body })
+            const result = await categoryRepository.update(id, body)
             if (result.affected === 1) {
                 const category = await categoryRepository.find({
                     where: {
