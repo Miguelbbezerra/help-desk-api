@@ -7,14 +7,17 @@ export class UpdateStatusController {
         try {
             const body = req.body
             const id = req.params.id
+            const isActivePresent = body.hasOwnProperty('active')
 
-            if (Validator.validateVazio(body.status)
-            ) {
-                return res.status(400).json({ message: "Algum campo está vazio!" })
+            if (!isActivePresent) {
+                if (Validator.validateVazio(body.status)
+                ) {
+                    return res.status(400).json({ message: "Algum campo está vazio!" })
+                }
             }
-            
+
             const statusRepository = AppDataSource.getRepository(StatusSchema)
-            const result = await statusRepository.update(id, { ...body })
+            const result = await statusRepository.update(id, body )
             if (result.affected === 1) {
                 const status = await statusRepository.find({
                     where: {
