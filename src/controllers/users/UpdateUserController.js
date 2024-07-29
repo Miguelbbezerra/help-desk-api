@@ -46,7 +46,7 @@ export class UpdateUserController {
             //// VALIDATORS
 
             const userRepository = AppDataSource.getRepository(UserSchema)
-            const result = await userRepository.update(id, { ...body })
+            const result = await userRepository.update(id, body)
             if (result.affected === 1) {
                 const user = await userRepository.findOne({
                     where: {

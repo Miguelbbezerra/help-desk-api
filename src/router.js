@@ -6,7 +6,8 @@ import { ListChatController } from "./controllers/chats/ListChatController.js"
 import { ListTicketController } from "./controllers/tickets/ListTicketController.js"
 import { ListUserController } from "./controllers/users/ListUserController.js"
 import { ListNotificationController } from "./controllers/notifications/ListNotificationController.js"
-///////////////////////////////////// LIST
+///////////////////////////////////// 
+
 ///////////////////////////////////// STORE
 import { StoreTicketController } from "./controllers/tickets/StoreTicketController.js"
 import { StoreUserController } from "./controllers/users/StoreUserController.js"
@@ -16,6 +17,7 @@ import { StoreChatController } from "./controllers/chats/StoreChatController.js"
 import { StoreAnexosTicketsController, uploadMiddleware } from "./controllers/anexosTickets/StoreAnexosTicketsController.js"
 import { StoreNotificationController } from "./controllers/notifications/StoreNotificationController.js"
 ///////////////////////////////////// STORE
+
 ///////////////////////////////////// UPDATE AND DELETE
 import { UpdateUserController } from "./controllers/users/UpdateUserController.js"
 import { UpdateTicketController } from "./controllers/tickets/UpdateTicketController.js"
@@ -24,26 +26,40 @@ import { UpdateCategoryController } from "./controllers/categories/UpdateCategor
 import { UpdateStatusController } from "./controllers/status/UpdateStatusController.js"
 import { UpdateNotificationController } from "./controllers/notifications/UpdateNotificationController.js"
 import { DeleteAnexosTicketsController } from "./controllers/anexosTickets/DeleteAnexosTicketsController.js"
+import auth from "./middleware/auth.js"
 ///////////////////////////////////// UPDATE AND DELETE
+
+///////////////////////////////////// LOGIN
+import LoginController from "./controllers/login/LoginController.js"
+///////////////////////////////////// LOGIN
 
 export const router = (express) => {
     const router = express.Router()
 
+    //LOGIN
+    router.post("/login", (req, res) => {
+        const loginController = new LoginController()
+
+        return loginController.login(req, res)
+    })
+    //LOGIN
+
+
     // ROUTES OF USERS
     //LIST
-    router.get('/user', (req, res) => {
+    router.get('/user', auth, (req, res) => {
         const listUserController = new ListUserController()
         return listUserController.list(req, res)
     })
 
     //STORE
-    router.post('/user', (req, res) => {
+    router.post('/user', auth, (req, res) => {
         const storeUserController = new StoreUserController()
         return storeUserController.store(req, res)
     })
 
     //UPDATE
-    router.put('/user/:id', (req, res) => {
+    router.put('/user/:id', auth, (req, res) => {
         const updateUserController = new UpdateUserController()
         return updateUserController.update(req, res)
     })
@@ -54,19 +70,19 @@ export const router = (express) => {
 
     // ROUTES OF TICKTES
     //LIST
-    router.get('/ticket', (req, res) => {
+    router.get('/ticket', auth, (req, res) => {
         const listTicketControler = new ListTicketController()
         return listTicketControler.list(req, res)
     })
 
     //STORE
-    router.post('/ticket', (req, res) => {
+    router.post('/ticket', auth, (req, res) => {
         const storeTicketController = new StoreTicketController()
         return storeTicketController.store(req, res)
     })
 
     //UPDATE
-    router.put('/ticket/:id', (req, res) => {
+    router.put('/ticket/:id', auth, (req, res) => {
         const updateTicketController = new UpdateTicketController()
         return updateTicketController.update(req, res)
     })
@@ -77,19 +93,19 @@ export const router = (express) => {
 
     // ROUTES OF CHATS
     //LIST
-    router.get('/chat', (req, res) => {
+    router.get('/chat', auth, (req, res) => {
         const listChatController = new ListChatController()
         return listChatController.list(req, res)
     })
 
     //STORE
-    router.post('/chat', (req, res) => {
+    router.post('/chat', auth, (req, res) => {
         const storeChatController = new StoreChatController()
         return storeChatController.store(req, res)
     })
 
     //UPDATE
-    router.put('/chat/:id', (req, res) => {
+    router.put('/chat/:id', auth, (req, res) => {
         const updateChatController = new UpdateChatController()
         return updateChatController.update(req, res)
     })
@@ -100,19 +116,19 @@ export const router = (express) => {
 
     // ROUTES OF CATEGORY
     //LIST
-    router.get('/category', (req, res) => {
+    router.get('/category', auth, (req, res) => {
         const listCategoryController = new ListCategoryController()
         return listCategoryController.list(req, res)
     })
 
     //STORE
-    router.post('/category', (req, res) => {
+    router.post('/category', auth, (req, res) => {
         const storeCategoryController = new StoreCategoryController()
         return storeCategoryController.store(req, res)
     })
 
     //UPDATE
-    router.put('/category/:id', (req, res) => {
+    router.put('/category/:id', auth, (req, res) => {
         const updateCategoryController = new UpdateCategoryController()
         return updateCategoryController.update(req, res)
     })
@@ -123,19 +139,19 @@ export const router = (express) => {
 
     // ROUTES OF STATUS
     //LIST
-    router.get('/status', (req, res) => {
+    router.get('/status', auth, (req, res) => {
         const listStatusController = new ListStatusController()
         return listStatusController.list(req, res)
     })
 
     //STORE
-    router.post('/status', (req, res) => {
+    router.post('/status', auth, (req, res) => {
         const storeStatusController = new StoreStatusController()
         return storeStatusController.store(req, res)
     })
 
     //UPDATE
-    router.put('/status/:id', (req, res) => {
+    router.put('/status/:id', auth, (req, res) => {
         const updateStatusController = new UpdateStatusController()
         return updateStatusController.update(req, res)
     })
@@ -146,19 +162,19 @@ export const router = (express) => {
 
     // ROUTES OF ANEXOS TICKETS
     //LIST
-    router.get('/anexosticket', (req, res) => {
+    router.get('/anexosticket', auth, (req, res) => {
         const listAnexosTicketsController = new ListAnexosTicketsController()
         return listAnexosTicketsController.list(req, res)
     })
 
     //STORE
-    router.post('/anexosticket', uploadMiddleware, (req, res) => {
+    router.post('/anexosticket', uploadMiddleware, auth, (req, res) => {
         const storeAnexosTicketsController = new StoreAnexosTicketsController()
         return storeAnexosTicketsController.store(req, res)
     })
 
     //DELETE
-    router.put('/anexosticket/:id', (req, res) => {
+    router.put('/anexosticket/:id', auth, (req, res) => {
         const deleteAnexosTicketsController = new DeleteAnexosTicketsController()
         return deleteAnexosTicketsController.delete(req, res)
     })
@@ -167,15 +183,15 @@ export const router = (express) => {
     // ----------------------------
 
     // ROUTES OF NOTIFICATION
-    router.get('/notification', (req, res) => {
+    router.get('/notification', auth, (req, res) => {
         const listNoticationController = new ListNotificationController()
         return listNoticationController.list(req, res)
     })
-    router.post('/notification', (req, res) => {
+    router.post('/notification', auth, (req, res) => {
         const storeNoticationController = new StoreNotificationController()
         return storeNoticationController.store(req, res)
     })
-    router.put('/notification/:id', (req, res) => {
+    router.put('/notification/:id', auth, (req, res) => {
         const updateNoticationController = new UpdateNotificationController()
         return updateNoticationController.update(req, res)
     })
