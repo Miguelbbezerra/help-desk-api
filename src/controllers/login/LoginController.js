@@ -1,14 +1,15 @@
 import { AppDataSource } from "../../app-data-source.js"
 import { UserSchema } from "../../schema/users.js"
-import bcrypt from 'bcrypt'
 import { Validator } from "../../validator/validator.js"
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 export default class LoginController {
     async login(req, res) {
         try {
             const body = req.body
 
-            if (!Validator.validateVazio(body.email) || !Validator.validateVazio(body.password)) {
+            if (Validator.validateVazio(body.email) || Validator.validateVazio(body.password)) {
                 return res.status(400).json({ message: "Algum campo está vazio!" })
             }
 

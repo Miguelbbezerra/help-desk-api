@@ -26,12 +26,14 @@ import { UpdateCategoryController } from "./controllers/categories/UpdateCategor
 import { UpdateStatusController } from "./controllers/status/UpdateStatusController.js"
 import { UpdateNotificationController } from "./controllers/notifications/UpdateNotificationController.js"
 import { DeleteAnexosTicketsController } from "./controllers/anexosTickets/DeleteAnexosTicketsController.js"
-import auth from "./middleware/auth.js"
 ///////////////////////////////////// UPDATE AND DELETE
 
 ///////////////////////////////////// LOGIN
 import LoginController from "./controllers/login/LoginController.js"
 ///////////////////////////////////// LOGIN
+
+import auth from "./middleware/auth.js"
+import jwt from 'jsonwebtoken'
 
 export const router = (express) => {
     const router = express.Router()
@@ -44,6 +46,21 @@ export const router = (express) => {
     })
     //LOGIN
 
+    //VERIFICAR TOKEN 
+    router.post('/validate-token', (req, res) => {
+        const token = req.body.token
+
+        if (!token) {
+            return res.status(400).json({ valid: false, message: 'Token is required' });
+        }
+        try {
+            const decoded = jwt.verify(token, 'secret')
+            return res.json({ valid: true, decoded });
+        } catch (error) {
+            return res.status(401).json({ valid: false, message: 'Invalid token' });
+        }
+    })
+    //VERIFICAR TOKEN 
 
     // ROUTES OF USERS
     //LIST
