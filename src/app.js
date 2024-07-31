@@ -102,23 +102,35 @@ io.on('connection', (socket) => {
             const savedMessage = await response.json();
             console.log('message saved: ', savedMessage);
 
-            // Save notification using fetch
+            const messageFilter = `id=${savedMessage.id}`
+
+            const responseMessage = await fetch(`http://localhost:5000/chat?${messageFilter}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const fetchedMessage = await responseMessage.json()
+
+            console.log('message saved: ', fetchedMessage);
+
+            // Emite a mensagem salva para todos os clientes conectados
+            io.emit('chat message', fetchedMessage);
+            
             try {
                 const responseNotification = await fetch('http://localhost:5000/notification', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ type: 'new_chat_message', data: savedMessage }),
+                    body: JSON.stringify({ type: 'new_chat_message', data: fetchedMessage }),
                 });
                 const savedNotification = await responseNotification.json();
                 console.log('New chat message notification saved to database:', savedNotification);
             } catch (error) {
                 console.error('Error saving notification:', error);
             }
-
-            // Emite a mensagem salva para todos os clientes conectados
-            io.emit('chat message', savedMessage);
 
             // Envia uma notificação de chat
             io.emit('notification', { type: 'new_chat_message', data: savedMessage });

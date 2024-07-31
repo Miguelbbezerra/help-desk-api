@@ -25,7 +25,7 @@ export default class LoginController {
                 const Bearer = jwt.sign({
                     exp: Math.floor(Date.now() / 1000) + (60 * 60),
                     data: {
-                        id: user.id, fullName: user.fullName, email: user.email,
+                        id: user.id, fullName: user.fullName, email: user.email, level: user.level
                     }
                 }, 'secret')
                 res.status(200).json({ message: "Usuário Logado", token: Bearer })

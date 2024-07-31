@@ -110,19 +110,19 @@ export const router = (express) => {
 
     // ROUTES OF CHATS
     //LIST
-    router.get('/chat', auth, (req, res) => {
+    router.get('/chat', (req, res) => {
         const listChatController = new ListChatController()
         return listChatController.list(req, res)
     })
 
     //STORE
-    router.post('/chat', auth, (req, res) => {
+    router.post('/chat', (req, res) => {
         const storeChatController = new StoreChatController()
         return storeChatController.store(req, res)
     })
 
     //UPDATE
-    router.put('/chat/:id', auth, (req, res) => {
+    router.put('/chat/:id', (req, res) => {
         const updateChatController = new UpdateChatController()
         return updateChatController.update(req, res)
     })
